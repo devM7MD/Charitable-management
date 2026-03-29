@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System & Architecture - Charity CMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
+        body { font-family: 'Tajawal', sans-serif; background-color: #f1f5f9; }
+        @media print {
+            body { background-color: white; }
+            .no-print { display: none; }
+            .print-break { page-break-before: always; }
+            .shadow-sm, .shadow-md, .shadow-lg { box-shadow: none !important; border: 1px solid #e2e8f0; }
+        }
+        /* تصميم شجرة الملفات */
+        .tree-line { border-right: 2px dashed #cbd5e1; margin-right: 0.75rem; padding-right: 1.5rem; }
+    </style>
+</head>
+<body class="text-slate-800 py-10 antialiased">
+
+    <div class="max-w-5xl mx-auto bg-white p-10 rounded-2xl shadow-xl border-t-8 border-indigo-600">
+        
+        <header class="border-b-2 border-slate-100 pb-6 mb-10 flex justify-between items-end">
+            <div>
+                <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight mb-2">دليل التصميم وهيكلة المشروع</h1>
+                <h2 class="text-xl text-indigo-600 font-semibold">Charity Management System (CMS)</h2>
+            </div>
+            <div class="text-left text-sm text-slate-500 font-mono">
+                <p>Updated: 2026</p>
+                <p>Stack: Express / SQLite / Tailwind</p>
+            </div>
+        </header>
+
+        <section class="mb-14">
+            <h3 class="text-2xl font-bold text-slate-800 border-r-4 border-indigo-500 pr-3 mb-6">1. هيكلة الملفات (Project Directory)</h3>
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 font-mono text-sm text-slate-700 leading-loose">
+                <p class="font-bold text-lg text-indigo-700 mb-2">📁 charity-cms/</p>
+                
+                <div class="tree-line">
+                    <p class="font-bold text-slate-800 mt-2">📁 db/</p>
+                    <div class="tree-line text-slate-600">
+                        <p>📄 db.js <span class="text-slate-400 font-sans text-xs">(ملف الاتصال بقاعدة البيانات using better-sqlite3)</span></p>
+                        <p>📄 schema.sql <span class="text-slate-400 font-sans text-xs">(الجداول والعلاقات الجديدة)</span></p>
+                    </div>
+
+                    <p class="font-bold text-slate-800 mt-4">📁 controllers/</p>
+                    <div class="tree-line text-slate-600">
+                        <p>📄 authController.js <span class="text-slate-400 font-sans text-xs">(تسجيل الدخول، إنشاء الحساب)</span></p>
+                        <p>📄 publicController.js <span class="text-slate-400 font-sans text-xs">(الرئيسية، استكشاف الحملات)</span></p>
+                        <p>📄 volunteerController.js <span class="text-slate-400 font-sans text-xs">(لوحة المتطوع، مهامي، تقديم)</span></p>
+                        <p>📄 organizerController.js <span class="text-slate-400 font-sans text-xs">(إدارة الحملات والمهام للمنظم)</span></p>
+                        <p>📄 adminController.js <span class="text-slate-400 font-sans text-xs">(إدارة المستخدمين للنظام)</span></p>
+                    </div>
+
+                    <p class="font-bold text-slate-800 mt-4">📁 views/</p>
+                    <div class="tree-line text-slate-600">
+                        <p class="font-bold text-slate-700">📁 partials/ <span class="text-slate-400 font-sans text-xs">(الأجزاء المتكررة)</span></p>
+                        <div class="tree-line">
+                            <p>📄 header.ejs</p>
+                            <p>📄 footer.ejs</p>
+                            <p>📄 sidebar.ejs</p>
+                        </div>
+                        <p class="font-bold text-slate-700 mt-2">📁 public/ <span class="text-slate-400 font-sans text-xs">(صفحات الزوار)</span></p>
+                        <div class="tree-line">
+                            <p>📄 home.ejs</p>
+                            <p>📄 login.ejs</p>
+                            <p>📄 register.ejs</p>
+                        </div>
+                        <p class="font-bold text-slate-700 mt-2">📁 dashboard/ <span class="text-slate-400 font-sans text-xs">(لوحات التحكم)</span></p>
+                        <div class="tree-line">
+                            <p>📄 volunteer.ejs</p>
+                            <p>📄 organizer.ejs</p>
+                            <p>📄 admin.ejs</p>
+                        </div>
+                    </div>
+
+                    <p class="font-bold text-slate-800 mt-4">📄 server.js <span class="text-slate-400 font-sans text-xs">(نقطة الدخول وتوجيه المسارات - Routes)</span></p>
+                    <p class="font-bold text-slate-800">📄 package.json</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-14 print-break">
+            <h3 class="text-2xl font-bold text-slate-800 border-r-4 border-indigo-500 pr-3 mb-6">2. لوحة الألوان (Color Palette)</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm font-semibold">
+                
+                <div class="rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+                    <div class="h-20 bg-indigo-600 flex items-center justify-center text-white">Primary (Indigo)</div>
+                    <div class="p-3 bg-white text-slate-600">
+                        <p>bg-indigo-600</p>
+                        <p class="text-xs font-normal text-slate-400 mt-1">للأزرار الأساسية والهيدر</p>
+                    </div>
+                </div>
+
+                <div class="rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+                    <div class="h-20 bg-emerald-500 flex items-center justify-center text-white">Volunteer (Emerald)</div>
+                    <div class="p-3 bg-white text-slate-600">
+                        <p>bg-emerald-500</p>
+                        <p class="text-xs font-normal text-slate-400 mt-1">للمتطوعين وإنجاز المهام</p>
+                    </div>
+                </div>
+
+                <div class="rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+                    <div class="h-20 bg-amber-500 flex items-center justify-center text-white">Organizer (Amber)</div>
+                    <div class="p-3 bg-white text-slate-600">
+                        <p>bg-amber-500</p>
+                        <p class="text-xs font-normal text-slate-400 mt-1">لإدارة الحملات والتنبيهات</p>
+                    </div>
+                </div>
+
+                <div class="rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+                    <div class="h-20 bg-rose-600 flex items-center justify-center text-white">Admin (Rose)</div>
+                    <div class="p-3 bg-white text-slate-600">
+                        <p>bg-rose-600</p>
+                        <p class="text-xs font-normal text-slate-400 mt-1">للإدارة العليا والحذف</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section>
+            <h3 class="text-2xl font-bold text-slate-800 border-r-4 border-indigo-500 pr-3 mb-6">3. المكونات الجاهزة (Tailwind Components)</h3>
+            
+            <div class="space-y-8">
+                <div>
+                    <h4 class="text-lg font-bold text-slate-700 mb-3">أ. كارت الحملة (Campaign Card)</h4>
+                    <div class="bg-slate-100 p-6 rounded-xl border border-slate-200 flex justify-center">
+                        <div class="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300 border border-slate-100 p-5 w-80 text-right">
+                            <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full">إطعام</span>
+                            <h5 class="text-xl font-bold text-slate-800 mt-3 mb-2">حملة إفطار صائم</h5>
+                            <p class="text-slate-500 text-sm mb-4">توزيع 500 وجبة في المناطق الأكثر احتياجاً.</p>
+                            <div class="flex justify-between items-center mt-4 pt-4 border-t border-slate-100">
+                                <span class="text-xs text-slate-400">📍 عجمان</span>
+                                <button class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-colors">التفاصيل</button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-left mt-2 text-xs font-mono text-slate-500" dir="ltr">Classes: bg-white rounded-2xl shadow-sm hover:shadow-lg border border-slate-100 p-5</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-700 mb-3">ب. الأزرار (Buttons)</h4>
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3 flex flex-col items-start">
+                            <button class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-6 rounded-xl w-full transition-colors shadow-sm">زر رئيسي (Primary)</button>
+                            <button class="bg-white hover:bg-slate-50 text-slate-700 font-semibold py-2.5 px-6 rounded-xl border border-slate-300 w-full transition-colors shadow-sm">زر ثانوي (Secondary)</button>
+                        </div>
+                        <p class="text-left mt-2 text-xs font-mono text-slate-500" dir="ltr">Classes: py-2.5 px-6 rounded-xl font-semibold transition-colors shadow-sm</p>
+                    </div>
+
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-700 mb-3">ج. حقول الإدخال (Inputs)</h4>
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">البريد الإلكتروني</label>
+                            <input type="email" placeholder="example@domain.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-left" dir="ltr">
+                        </div>
+                        <p class="text-left mt-2 text-xs font-mono text-slate-500" dir="ltr">Classes: border border-slate-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 rounded-xl outline-none</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>

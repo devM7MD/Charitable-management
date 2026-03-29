@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRD - Charitable Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Changa:wght@400;600;800&display=swap');
+        body { font-family: 'Changa', sans-serif; background-color: #f8fafc; }
+        /* لتفعيل التمرير السلس عند الضغط على الروابط الجانبية */
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-gray-800">
+
+    <aside class="w-72 bg-slate-900 text-white flex flex-col h-full shadow-2xl overflow-y-auto no-print">
+        <div class="p-6 border-b border-slate-700">
+            <h1 class="text-2xl font-extrabold text-blue-400">Charity CMS</h1>
+            <p class="text-sm text-slate-400 mt-2">V 2.0 - Enterprise Edition</p>
+        </div>
+        <nav class="flex-1 p-4 space-y-2">
+            <a href="#overview" class="block p-3 rounded hover:bg-slate-800 transition">1. نظرة عامة والهدف</a>
+            <a href="#database" class="block p-3 rounded hover:bg-slate-800 transition">2. هيكل قواعد البيانات المتقدم</a>
+            <a href="#public" class="block p-3 rounded hover:bg-slate-800 transition">3. الواجهة العامة (Public)</a>
+            <a href="#volunteer" class="block p-3 rounded hover:bg-slate-800 transition">4. بوابة المتطوع (Volunteer)</a>
+            <a href="#organizer" class="block p-3 rounded hover:bg-slate-800 transition">5. لوحة المنظم (Organizer)</a>
+            <a href="#admin" class="block p-3 rounded hover:bg-slate-800 transition">6. لوحة الإدارة (Super Admin)</a>
+            <a href="#gamification" class="block p-3 rounded hover:bg-slate-800 transition">7. نظام النقاط (Gamification)</a>
+        </nav>
+    </aside>
+
+    <main class="flex-1 h-full overflow-y-auto p-10 bg-slate-50 relative">
+        <div class="max-w-5xl mx-auto space-y-16 pb-20">
+
+            <div class="border-b-4 border-blue-600 pb-4">
+                <h1 class="text-5xl font-black text-slate-900">وثيقة المتطلبات التفصيلية (PRD)</h1>
+                <p class="text-xl text-slate-600 mt-2">نظام إدارة الأعمال الخيرية والتطوعية - Charitable Management System</p>
+            </div>
+
+            <section id="overview" class="scroll-mt-10">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center"><span class="bg-blue-600 text-white px-4 py-1 rounded ml-3">1</span> نظرة عامة والهدف</h2>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 leading-relaxed text-lg">
+                    <p>هذا المشروع ليس مجرد قائمة مهام، بل هو <strong>SaaS (Software as a Service)</strong> مصغر لإدارة الجمعيات الخيرية. يهدف النظام إلى أتمتة دورة حياة الحملة الخيرية بالكامل، بدءاً من التخطيط، مروراً بتوظيف المتطوعين بناءً على مهاراتهم، وصولاً إلى نظام تقييم وإعطاء نقاط (Gamification) للمتطوعين النشطين لاستخراج شهادات تطوعية.</p>
+                </div>
+            </section>
+
+            <section id="database" class="scroll-mt-10">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center"><span class="bg-blue-600 text-white px-4 py-1 rounded ml-3">2</span> هيكل قواعد البيانات المتقدم (Schema)</h2>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <p class="mb-4 text-slate-600">لتنفيذ هذا النظام المعقد، سيتم توسيع الجداول لتشمل الآتي:</p>
+                    <ul class="list-disc list-inside space-y-3 text-slate-700">
+                        <li><strong>Users:</strong> يضاف إليه (role, points, skills_tags, phone_number, is_active).</li>
+                        <li><strong>Campaigns:</strong> يضاف إليه (status: draft, active, completed, category: إطعام، طبي، تعليمي، image_url).</li>
+                        <li><strong>Tasks:</strong> يضاف إليه (required_skills, estimated_hours, difficulty_level, points_reward).</li>
+                        <li><strong>Applications (جدول جديد):</strong> لتقديم المتطوع على مهمة وانتظار موافقة المنظم (status: pending, accepted, rejected).</li>
+                        <li><strong>Certificates (جدول جديد):</strong> لتخزين الشهادات التي حصل عليها المتطوع بعد إتمام عدد ساعات معين.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="public" class="scroll-mt-10">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center"><span class="bg-blue-600 text-white px-4 py-1 rounded ml-3">3</span> الواجهة العامة للزوار (Public Portal)</h2>
+                <div class="overflow-x-auto shadow-sm rounded-lg border border-slate-200">
+                    <table class="w-full text-right bg-white">
+                        <thead class="bg-slate-100 text-slate-700">
+                            <tr><th class="p-4 w-1/4">المسار (Route)</th><th class="p-4 w-1/4">الصفحة</th><th class="p-4 w-1/2">التفاصيل اللوجيكية والـ UI</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr><td class="p-4 font-mono text-blue-600">GET /</td><td class="p-4 font-bold">الرئيسية</td><td class="p-4 text-slate-600">Hero Section تفاعلي، إحصائيات حية (Total Volunteers, Hours Donated)، وأحدث 6 حملات.</td></tr>
+                            <tr><td class="p-4 font-mono text-blue-600">GET /explore</td><td class="p-4 font-bold">استكشاف الحملات</td><td class="p-4 text-slate-600">صفحة تحتوي على <strong>فلاتر بحث (Filters)</strong>: حسب المدينة، حسب الفئة (إطعام، تعليم)، وحسب التاريخ.</td></tr>
+                            <tr><td class="p-4 font-mono text-blue-600">GET /leaderboard</td><td class="p-4 font-bold">لوحة الشرف</td><td class="p-4 text-slate-600">جدول يعرض أفضل 10 متطوعين في النظام بناءً على الـ Points لزيادة التنافسية.</td></tr>
+                            <tr><td class="p-4 font-mono text-blue-600">GET, POST /auth/*</td><td class="p-4 font-bold">نظام الدخول</td><td class="p-4 text-slate-600">Login, Register, Forget Password (تجهيز لوجيك تشفير الباسورد مستقبلاً).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="volunteer" class="scroll-mt-10">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center"><span class="bg-emerald-600 text-white px-4 py-1 rounded ml-3">4</span> بوابة المتطوع (Volunteer Portal)</h2>
+                <div class="overflow-x-auto shadow-sm rounded-lg border border-slate-200">
+                    <table class="w-full text-right bg-white">
+                        <thead class="bg-emerald-50 text-emerald-800">
+                            <tr><th class="p-4 w-1/4">المسار (Route)</th><th class="p-4 w-1/4">الصفحة</th><th class="p-4 w-1/2">التفاصيل اللوجيكية والـ UI</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr><td class="p-4 font-mono text-emerald-600">GET /v/dashboard</td><td class="p-4 font-bold">اللوحة الرئيسية</td><td class="p-4 text-slate-600">ودجت (Widgets) لعدد ساعاته، نقاطه الحالية، والمهام القادمة له هذا الأسبوع.</td></tr>
+                            <tr><td class="p-4 font-mono text-emerald-600">GET /v/tasks</td><td class="p-4 font-bold">مهامي (Kanban Board)</td><td class="p-4 text-slate-600">عرض المهام بنظام الكروت (To Do -> In Progress -> Done). يستطيع سحب المهمة لتغيير حالتها.</td></tr>
+                            <tr><td class="p-4 font-mono text-emerald-600">POST /v/apply/:taskId</td><td class="p-4 font-bold">التقديم على مهمة</td><td class="p-4 text-slate-600">زر داخل تفاصيل الحملة، يرسل طلب للمنظم (Application) بدل الحجز المباشر (لزيادة الواقعية).</td></tr>
+                            <tr><td class="p-4 font-mono text-emerald-600">GET /v/certificates</td><td class="p-4 font-bold">سجل الشهادات</td><td class="p-4 text-slate-600">بمجرد وصول المتطوع لـ 50 ساعة، يظهر له زر لتحميل شهادة تطوع PDF.</td></tr>
+                            <tr><td class="p-4 font-mono text-emerald-600">GET, POST /v/profile</td><td class="p-4 font-bold">الملف الشخصي</td><td class="p-4 text-slate-600">تعديل البيانات، وإضافة الـ Skills (مثل: تصوير، قيادة سيارة، طبخ) ليتم ترشيحه للمهام المناسبة.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="organizer" class="scroll-mt-10">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center"><span class="bg-amber-500 text-white px-4 py-1 rounded ml-3">5</span> لوحة مدير الحملات (Organizer Panel)</h2>
+                <div class="overflow-x-auto shadow-sm rounded-lg border border-slate-200">
+                    <table class="w-full text-right bg-white">
+                        <thead class="bg-amber-50 text-amber-800">
+                            <tr><th class="p-4 w-1/4">المسار (Route)</th><th class="p-4 w-1/4">الصفحة</th><th class="p-4 w-1/2">التفاصيل اللوجيكية والـ UI</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr><td class="p-4 font-mono text-amber-600">GET /org/dashboard</td><td class="p-4 font-bold">إحصائيات المنظم</td><td class="p-4 text-slate-600">رسوم بيانية (Charts) توضح نسبة إنجاز كل حملة يمتلكها، وعدد المتطوعين النشطين لديه.</td></tr>
+                            <tr><td class="p-4 font-mono text-amber-600">GET, POST /org/campaigns</td><td class="p-4 font-bold">إدارة الحملات</td><td class="p-4 text-slate-600">جدول (CRUD) كامل. ميزة حفظ الحملة كـ (Draft) قبل نشرها للعامة.</td></tr>
+                            <tr><td class="p-4 font-mono text-amber-600">GET /org/campaign/:id/tasks</td><td class="p-4 font-bold">مدير المهام</td><td class="p-4 text-slate-600">إضافة مهام للحملة، تحديد مستوى صعوبة المهمة، وتحديد عدد النقاط التي سيحصل عليها المتطوع.</td></tr>
+                            <tr><td class="p-4 font-mono text-amber-600">GET /org/applications</td><td class="p-4 font-bold">طلبات الانضمام</td><td class="p-4 text-slate-600">صفحة تعرض كل المتطوعين اللي داسوا "تقديم". المنظم يشوف بروفايل المتطوع ويدوس (Accept / Reject).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="admin" class="scroll-mt-10">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center"><span class="bg-red-600 text-white px-4 py-1 rounded ml-3">6</span> لوحة الإدارة العليا (Super Admin Panel)</h2>
+                <div class="overflow-x-auto shadow-sm rounded-lg border border-slate-200">
+                    <table class="w-full text-right bg-white">
+                        <thead class="bg-red-50 text-red-800">
+                            <tr><th class="p-4 w-1/4">المسار (Route)</th><th class="p-4 w-1/4">الصفحة</th><th class="p-4 w-1/2">التفاصيل اللوجيكية والـ UI</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr><td class="p-4 font-mono text-red-600">GET /admin/overview</td><td class="p-4 font-bold">مركز القيادة</td><td class="p-4 text-slate-600">رؤية شاملة للسيستم: إجمالي اليوزرز، الحملات النشطة، والـ Server Status.</td></tr>
+                            <tr><td class="p-4 font-mono text-red-600">GET, POST /admin/users</td><td class="p-4 font-bold">إدارة المستخدمين</td><td class="p-4 text-slate-600">صلاحية حظر مستخدم (Ban)، أو ترقية متطوع إلى (Organizer) بعد مراجعة أوراقه.</td></tr>
+                            <tr><td class="p-4 font-mono text-red-600">GET /admin/campaigns</td><td class="p-4 font-bold">مراقبة الحملات</td><td class="p-4 text-slate-600">القدرة على إيقاف أو حذف أي حملة تنتهك شروط المنصة (Force Delete).</td></tr>
+                            <tr><td class="p-4 font-mono text-red-600">GET /admin/settings</td><td class="p-4 font-bold">إعدادات النظام</td><td class="p-4 text-slate-600">تعديل التصنيفات (Categories) المتاحة للحملات، وتغيير قواعد توزيع النقاط.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+</body>
+</html>
